@@ -49,19 +49,26 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\femdoc.jpg" />
+		<None Remove="Resources\Images\femdoc.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.32">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
 		<PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
+		<PackageReference Include="NSubstitute" Version="5.0.0" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.9.141-beta" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Using Include="Lab2.ViewModels">
-	    <Alias>ViewModels</Alias>
-	  </Using>
+		<Using Include="Lab2.ViewModels">
+			<Alias>ViewModels</Alias>
+		</Using>
 	</ItemGroup>
 
 </Project>

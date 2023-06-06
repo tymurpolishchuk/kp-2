@@ -1,12 +1,9 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
-using Microsoft.Maui.Controls;
-using System.Net.Http;
 using System.Text.Json;
-using System.Numerics;
+using Lab2.Services;
 
 namespace Lab2.ViewModels
 {
@@ -60,8 +57,13 @@ namespace Lab2.ViewModels
         {
             UpdateTimeCommand = new Command(UpdateTime);
             CurrentDateTime = DateTime.Now.ToString("F");
-            UpdateImageCommand = new Command(UpdateImage);
-            UpdateImage();
+            FireAndForget();
+        }
+
+        private static async void FireAndForget()
+        {
+            await DatabaseService.Init();
+            await FetchDataFromApiAsync();
         }
         private void UpdateTime()
         {
@@ -73,35 +75,18 @@ namespace Lab2.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public void UpdateImage()
-        {
-            int number = 0;
-            Random rnd = new Random();
-            number = rnd.Next(2);
-            if (number == 0)
-                ImageSource = "femdoc.jpg";
-            else 
-                ImageSource = "dotnet_bot.png";
-        }
-        private async Task FetchDataFromApiAsync()
+        private static async Task FetchDataFromApiAsync()
         {
             var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync("");
+            var response = await httpClient.GetAsync("https://jsonplaceholder.typicode.com/todos/1");
 
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
                 var toDoItem = JsonSerializer.Deserialize<ToDoItem>(json);
+                await DatabaseService.SaveItemAsync(toDoItem);
+                Console.WriteLine("added1");
             }
         }
-    }
-
-    public class ToDoItem
-    {
-        public int UserId { get; set; }
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public bool Completed { get; set; }
     }
 }

@@ -1,1 +1,1 @@
-E:\Vlad\KPP\Lab2\Lab2\Lab2.csproj;x64
+C:\kp-2\Lab2\Lab2.csproj;x64
